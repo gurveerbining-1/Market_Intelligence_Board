@@ -1,0 +1,64 @@
+# -----------------------------
+# ENV / SECRETS (VERY IMPORTANT)
+# -----------------------------
+.env
+.env.*
+!.env.example
+
+# -----------------------------
+# PYTHON
+# -----------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+
+# virtual environments
+venv/
+.env/
+.venv/
+
+# -----------------------------
+# TESTING
+# -----------------------------
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# -----------------------------
+# LOGS
+# -----------------------------
+*.log
+
+# -----------------------------
+# IDE / EDITOR
+# -----------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# -----------------------------
+# OS FILES
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# DOCKER
+# -----------------------------
+# ignore local docker files if needed
+docker-compose.override.yml
+
+# -----------------------------
+# BUILD / DIST
+# -----------------------------
+build/
+dist/
+*.egg-info/
+
+# -----------------------------
+# OPTIONAL (if you generate files)
+# -----------------------------
+output.txt
+*.csv
