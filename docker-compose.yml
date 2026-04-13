@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: market_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  market-etl:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_HOST: postgres
+      DB_NAME: market_db
+
+volumes:
+  postgres_data:
