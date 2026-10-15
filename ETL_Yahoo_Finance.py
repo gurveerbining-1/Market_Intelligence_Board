@@ -116,13 +116,13 @@ def load(transformed_df):
         
         #print(transformed_df.head())
         # 1. Connect to database
-        connection = psycopg2.connect(
-            user = os.getenv("DB_USER"),
-            password = os.getenv("DB_PASSWORD"),
-            host = os.getenv("DB_HOST"),
-            database = os.getenv("DB_NAME")
-        )
+        database_url = os.getenv("DB_URL")
 
+        if not database_url:
+            raise ValueError("DB_URL is not set in the environment.")
+
+        connection = psycopg2.connect(database_url)
+        
         # Create a cursor for database operations
         cur = connection.cursor()
 
@@ -204,7 +204,7 @@ def load(transformed_df):
         execute_values(cur, insert_query, records) # helper function that allows the user to insert many rows at once into PostgreSQL efficiently
         connection.commit()
 
-        print(f"Loaded {len(records)} rows into market_data.")
+        print(f"Loaded {len(records)} rows into database.")
 
     except Exception as error:
         if connection:
