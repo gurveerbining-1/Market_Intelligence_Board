@@ -1,0 +1,33 @@
+
+name: Scheduled Market ETL
+
+on:
+  schedule:
+    # Weekdays at 5:30 PM Toronto time
+    - cron: "30 17 * * 1-5"
+      timezone: "America/Toronto"
+  workflow_dispatch:
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+
+    env:
+      DB_URL: ${{ secrets.DB_URL }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify database secret exists
+        run: |
+          if [ -z "$DB_URL" ]; then
+            echo "DB_URL secret is missing."
+            exit 1
+          fi
+
+      - name: Build ETL Docker image
+        run: docker build -t market-etl .
+
+      - name: Run ETL
+        run: docker run --rm -e DB_URL market-etl
