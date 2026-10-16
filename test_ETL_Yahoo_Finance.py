@@ -203,7 +203,8 @@ def test_load_empty_dataframe_raises():
 # create mock objects with @patch annotation
 @patch("ETL_Yahoo_Finance.execute_values")
 @patch("ETL_Yahoo_Finance.psycopg2.connect")
-def test_load_success(mock_connect, mock_execute_values, sample_clean_data):
+def test_load_success(mock_connect, mock_execute_values, sample_clean_data, monkeypatch):
+    monkeypatch.setenv("DB_URL", "postgresql://test:test@localhost/test_db")
     mock_connection = MagicMock()
     mock_cursor = MagicMock()
 
@@ -239,7 +240,8 @@ def test_load_success(mock_connect, mock_execute_values, sample_clean_data):
 
 @patch("ETL_Yahoo_Finance.execute_values")
 @patch("ETL_Yahoo_Finance.psycopg2.connect")
-def test_load_rolls_back_on_insert_failure(mock_connect, mock_execute_values, sample_clean_data):
+def test_load_rolls_back_on_insert_failure(mock_connect, mock_execute_values, sample_clean_data, monkeypatch):
+    monkeypatch.setenv("DB_URL", "postgresql://test:test@localhost/test_db")
     mock_connection = MagicMock()
     mock_cursor = MagicMock()
 
