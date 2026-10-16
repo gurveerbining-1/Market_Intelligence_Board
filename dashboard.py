@@ -10,14 +10,25 @@ import plotly.graph_objects as go
 load_dotenv()
 
 def get_data():
-    engine = create_engine(
-        os.getenv("DB_URL").replace(
+    try:
+        database_url = st.secrets["DB_URL"]
+    except (KeyError, FileNotFoundError, st.errors.StreamlitSecretNotFoundError):
+        database_url = os.getenv("DB_URL")
+
+    if not database_url:
+        raise ValueError(
+            "DB_URL is missing. Configure it in Streamlit Secrets "
+            "or your local .env file."
+        )
+
+
+    database_url = database_url.replace(
         "postgresql://",
         "postgresql+psycopg2://",
         1
     )
 
-    )
+    engine = create_engine(database_url)
 
     query = "SELECT * FROM market_data"
     df = pd.read_sql(query, engine)
